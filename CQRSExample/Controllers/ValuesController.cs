@@ -1,4 +1,6 @@
-﻿using CQRSExample.Services;
+﻿using CQRSExample.Commands;
+using CQRSExample.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,26 +11,24 @@ namespace CQRSExample.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private readonly IValuesService valuesService;
+        private readonly IMediator mediator;
 
-        public ValuesController(IValuesService valuesService)
+        public ValuesController(IMediator mediator)
         {
-            this.valuesService = valuesService;
+            this.mediator = mediator;
         }
 
-        // GET api/values
         [HttpGet]
         public async Task<ActionResult<List<string>>> Get()
         {
-            return await this.valuesService.Values();
+            return await this.mediator.Send(new ValuesRequest());
         }
 
-        // /api/values/create/1/test
         [HttpGet]
         [Route("create/{itemId:int}/{value}")]
         public async Task Create(int itemId, string value)
         {
-            await this.valuesService.Insert(itemId, value);
+            await this.mediator.Send(new InsertValueCommand(itemId, value));
         }
     }
 }

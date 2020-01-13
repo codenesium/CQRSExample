@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 namespace CQRSExample.Commands
 {
     // inserts an item using the write side repository
-    public class InsertValueRequestHandler : AsyncRequestHandler<InsertValueRequest>
+    public class InsertValueCommandHandler : AsyncRequestHandler<InsertValueCommand>
     {
         private readonly IWriteRepository repository;
 
-        public InsertValueRequestHandler(IWriteRepository repository)
+        public InsertValueCommandHandler(IWriteRepository repository)
         {
             this.repository = repository;
         }
 
-        protected override Task Handle(InsertValueRequest request, CancellationToken cancellationToken)
+        protected override Task Handle(InsertValueCommand request, CancellationToken cancellationToken)
         {
             this.repository.Insert(request.Id, request.NewValue);
             return Task.CompletedTask;

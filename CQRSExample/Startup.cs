@@ -1,7 +1,6 @@
 ﻿using CQRSExample.Infrastructure;
 using CQRSExample.ReadModels;
 using CQRSExample.Repositories;
-using CQRSExample.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,8 +34,6 @@ namespace CQRSExample
             await dataStore.Insert(new ValueObject() { Id = 2, Value = "B" });
             await dataStore.Insert(new ValueObject() { Id = 3, Value = "C" });
             services.AddSingleton<IDataStore>(dataStore);
-
-            services.AddTransient<IValuesService, ValuesService>();
             services.AddTransient<IWriteRepository, WriteRepository>();
             services.AddTransient<IReadRepository, ReadRepository>();
             services.AddTransient<ValuesModel, ValuesModel>();
